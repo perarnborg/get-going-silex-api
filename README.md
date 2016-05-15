@@ -22,3 +22,5 @@ Install Silex (http://silex.sensiolabs.org/)
 ```
 composer.phar install
 ```
+
+Create and configure db...
