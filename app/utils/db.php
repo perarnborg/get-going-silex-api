@@ -172,5 +172,19 @@ class Db {
         'name' => 'Blue'
       ));
     }
+
+    if (!$schema->tablesExist('secrets')) {
+      $secrets = new Table('secrets');
+      $secrets->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
+      $secrets->setPrimaryKey(array('id'));
+      $secrets->addColumn('name', 'string', array('length' => 32));
+      $secrets->addUniqueIndex(array('name'));
+
+      $schema->createTable($secrets);
+
+      $this->app['db']->insert('secrets', array(
+        'name' => 'Love is great'
+      ));
+    }
   }
 }

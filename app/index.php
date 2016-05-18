@@ -2,30 +2,21 @@
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/utils/simple-php-cacher/simple_php_cacher.php';
 require_once __DIR__.'/utils/db.php';
-require_once __DIR__.'/utils/dbservicelayer.php';
-require_once __DIR__.'/model/modelbase.php';
-require_once __DIR__.'/model/color.php';
+require_once __DIR__.'/models/userprovider.php';
+require_once __DIR__.'/models/userservice.php';
+require_once __DIR__.'/models/modelbase.php';
+require_once __DIR__.'/models/color.php';
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\User;
+
 
 $app = new Silex\Application();
-// production environment - false; test environment - true
-$app['debug'] = true;
 
-$app->get('/colors', function() use($app) {
-  $colorsService = new Color($app);
-  $colors = $colorsService->index();
+include(__DIR__.'/config/setup.php');
 
-  return json_encode($colors);
-});
+include(__DIR__.'/config/security.php');
 
-$app->get('/colors/{id}', function (Silex\Application $app, $id) {
-  $colorsService = new Color($app);
-  $user = $colorsService->get($id);
-
-  if (!$user) {
-     $app->abort(404, "id {$id} does not exist.");
-  }
-  return json_encode($user);
-});
+include(__DIR__.'/config/routes.php');
 
 $app->run();
 ?>
