@@ -6,9 +6,6 @@ require_once __DIR__.'/models/userprovider.php';
 require_once __DIR__.'/models/userservice.php';
 require_once __DIR__.'/models/modelbase.php';
 require_once __DIR__.'/models/color.php';
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\User;
-
 
 $app = new Silex\Application();
 

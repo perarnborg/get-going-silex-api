@@ -13,8 +13,14 @@ class UserService
       $user = null;
       $token = $app['security.token_storage']->getToken();
       if (null !== $token) {
-        $user = $token->getUser();
+        $u = $token->getUser();
+        if($u->isEnabled()) {
+            $user = new stdClass();
+            $user->username = $u->getUsername();
+            $user->roles = $u->getRoles();
+        }
       }
+      return $user;
     }
 
     public static function register($app, $username, $roles, $password)

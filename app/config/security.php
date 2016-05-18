@@ -3,19 +3,18 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     'security.firewalls' => array(
+//        'user' => array(
+//            'pattern' => '^/user$',
+//        ),
         'login' => array(
-            'pattern' => '^/login$',
-        ),
-        'user' => array(
-            'pattern' => '^/user$',
+            'pattern' => '^/user/login$',
         ),
         'register' => array(
             'pattern' => '^/user/register$',
         ),
         'secured' => array(
             'pattern' => '^.*$',
-//            'http' => true,
-            'form' => array('login_path' => '/login', 'check_path' => '/user/signin'),
+            'form' => array('login_path' => '/user/login', 'check_path' => '/user/authenticate'),
             'users' => $app->share(function () use ($app) {
                 return new UserProvider($app);
             }),
