@@ -1,5 +1,5 @@
 <?php
-use Symfony\Component\Security\Core\User\User;
+// use Symfony\Component\Security\Core\User\User;
 
 class UserService
 {
@@ -16,6 +16,7 @@ class UserService
         $u = $token->getUser();
         if($u->isEnabled()) {
             $user = new stdClass();
+            $user->id = $u->getId();
             $user->username = $u->getUsername();
             $user->roles = $u->getRoles();
         }

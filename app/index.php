@@ -4,8 +4,10 @@ require_once __DIR__.'/utils/simple-php-cacher/simple_php_cacher.php';
 require_once __DIR__.'/utils/db.php';
 require_once __DIR__.'/models/userprovider.php';
 require_once __DIR__.'/models/userservice.php';
+require_once __DIR__.'/models/user.php';
 require_once __DIR__.'/models/modelbase.php';
 require_once __DIR__.'/models/color.php';
+require_once __DIR__.'/models/secret.php';
 
 $app = new Silex\Application();
 

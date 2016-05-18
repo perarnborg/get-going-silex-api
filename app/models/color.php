@@ -2,10 +2,11 @@
 class Color extends ModelBase {
   public $id, $name;
 
-  protected function init($row)
+  protected function getObj($row)
   {
-    $this->id = intval($row['id'], 10);
-    $this->name = $row['name'];
-    return $this;
+    $obj = new stdClass();
+    $obj->id = intval($row['id'], 10);
+    $obj->name = $row['name'];
+    return $obj;
   }
 }

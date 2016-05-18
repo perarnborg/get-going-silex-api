@@ -22,24 +22,21 @@ $app->get('/colors/{id}', function (Silex\Application $app, $id) {
   return json_encode($color);
 });
 
-$app->get('/colors/user', function (Silex\Application $app, $id) {
-  $colorsService = new Color($app);
-  $color = $colorsService->listForUser(UserService::current($app)->id, $id);
+$app->get('/secrets/user', function (Silex\Application $app) {
+  $secretsService = new Secret($app);
+  $secrets = $secretsService->indexForUser(UserService::current($app)->id);
 
-  if (!$color) {
-     $app->abort(404, "id {$id} does not exist.");
-  }
-  return json_encode($color);
+  return json_encode($secrets);
 });
 
-$app->get('/colors/user/{id}', function (Silex\Application $app, $id) {
-  $colorsService = new Color($app);
-  $color = $colorsService->getForUser(UserService::current($app)->id, $id);
+$app->get('/secrets/user/{id}', function (Silex\Application $app, $id) {
+  $secretsService = new Secret($app);
+  $secret = $secretsService->getForUser(UserService::current($app)->id, $id);
 
-  if (!$color) {
+  if (!$secret) {
      $app->abort(404, "id {$id} does not exist.");
   }
-  return json_encode($color);
+  return json_encode($secret);
 });
 
 $app->get('/user', function() use($app) {
