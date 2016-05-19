@@ -9,4 +9,18 @@ class Color extends ModelBase {
     $obj->name = $row['name'];
     return $obj;
   }
+
+  protected function getRow($post, $user, $id = false)
+  {
+    $row = array();
+    if($id)
+    {
+      $row = $this->get($id, false, true);
+    } else {
+      $row['user_id'] = $user['id'];
+    }
+    $this->setRowValueFromPost($post, 'name', $row);
+
+    return $row;
+  }
 }

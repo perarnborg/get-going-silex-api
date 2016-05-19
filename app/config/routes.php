@@ -39,6 +39,29 @@ $app->get('/secrets/user/{id}', function (Silex\Application $app, $id) {
   return json_encode($secret);
 });
 
+$app->post('/secrets', function (Silex\Application $app) {
+  $secretsService = new Secret($app);
+  $row = $secretsService->getRow($_POST);
+  $res = $secretsService->save($row, UserService::current($app));
+
+  return json_encode($res);
+});
+
+$app->post('/secrets/{id}', function (Silex\Application $app, $id) {
+  $secretsService = new Secret($app);
+  $row = $secretsService->getRow($_POST, $id);
+  $res = $secretsService->save($row, UserService::current($app));
+
+  return json_encode($res);
+});
+
+$app->delete('/secrets/{id}', function (Silex\Application $app, $id) {
+  $secretsService = new Secret($app);
+  $affected = $secretsService->delete($id, UserService::current($app));
+
+  return json_encode($secrets);
+});
+
 $app->get('/user', function() use($app) {
   return json_encode(UserService::current($app));
 });
