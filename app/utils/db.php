@@ -48,6 +48,14 @@ class Db {
     return $rows;
   }
 
+  public function save($row) {
+    if(isset($row['id']) && $row['id']) {
+      return $this->update($row['id'], $row);
+    } else {
+      return $this->create($row);
+    }
+  }
+
   public function update($id, $row) {
     return $this->updateWhere(array('id' => $id), $row);
   }

@@ -12,13 +12,7 @@ class Color extends ModelBase {
 
   protected function getRow($post, $user, $id = false)
   {
-    $row = array();
-    if($id)
-    {
-      $row = $this->get($id, false, true);
-    } else {
-      $row['user_id'] = $user['id'];
-    }
+    $row = $this->getRowBase($user, $id);
     $this->setRowValueFromPost($post, 'name', $row);
 
     return $row;

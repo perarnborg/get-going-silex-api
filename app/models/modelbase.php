@@ -56,14 +56,30 @@ class ModelBase {
   }
 
   public function save($row) {
-    $this->db->save($row);
+    return $this->db->save($row);
   }
 
-  public function delete() {
+  public function delete($user, $id) {
+    $obj = $this->getForUserOrAdmin($user, $id, true, true);
+    if($obj) {
+      return $this->db->delete($obj->id);
+    }
+    return null;
   }
 
   protected function extractValue($post, $param) {
     return isset($post[$param]) ? $post[$param] : null;
+  }
+
+  protected function getRowBase($user, $id = false) {
+    $row = array();
+    if($id)
+    {
+      $row = $this->getForUserOrAdmin($user, $id, false, true);
+    } else {
+      $row['user_id'] = $user['id'];
+    }
+    return $row;
   }
 
   protected function setRowValueFromPost($post, $param, &$row) {
