@@ -27,9 +27,9 @@ class ModelBase {
   public function getForUserOrAdmin($user, $id, $asObject = true, $ignoreCache = false) {
     if(!in_array('ROLE_ADMIN', $user->roles))
     {
-      $row = $this->getForUser($user->id, $id, $asObject, $ignoreCache])
+      return $this->getForUser($user->id, $id, $asObject, $ignoreCache);
     } else {
-      $row = $this->get($id, $asObject, $ignoreCache);
+      return $this->get($id, $asObject, $ignoreCache);
     }
   }
 
@@ -77,7 +77,7 @@ class ModelBase {
     {
       $row = $this->getForUserOrAdmin($user, $id, false, true);
     } else {
-      $row['user_id'] = $user['id'];
+      $row['user_id'] = $user->id;
     }
     return $row;
   }

@@ -67,7 +67,7 @@ class Db {
 
   public function create($row) {
     $id = $this->app['db']->insert($this->table, $row);
-    $row['id'] = $id;
+    $row['id'] = $this->app['db']->lastInsertId();
     return $row;
   }
 

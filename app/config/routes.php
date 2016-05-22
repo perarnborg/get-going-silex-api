@@ -81,3 +81,16 @@ $app->post('/user/register', function() use($app) {
   }
   $app->abort(403, "no credentials.");
 });
+
+$app->get('/test/secrets/{id}', function (Silex\Application $app, $id) {
+    $secretsService = new Secret($app);
+    $secret = $secretsService->getForUserOrAdmin(UserService::current($app), $id, true, false);
+    return $app['twig']->render('edit-secret.html', array(
+        'secret' => $secret
+    ));
+});
+
+$app->get('/test/secrets', function (Silex\Application $app) {
+    return $app['twig']->render('new-secret.html', array(
+    ));
+});

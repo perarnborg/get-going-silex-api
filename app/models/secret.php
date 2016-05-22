@@ -4,6 +4,7 @@ class Secret extends ModelBase {
 
   protected function getObj($row)
   {
+
     $obj = new stdClass();
     $obj->id = intval($row['id'], 10);
     $obj->name = $row['name'];
@@ -11,7 +12,7 @@ class Secret extends ModelBase {
     return $obj;
   }
 
-  protected function getRow($post, $user, $id = false)
+  public function getRow($post, $user, $id = false)
   {
     $row = $this->getRowBase($user, $id);
     $this->setRowValueFromPost($post, 'name', $row);
