@@ -62,7 +62,7 @@ class Db {
 
   public function updateWhere($params, $row) {
     $affected = $this->app['db']->update($this->table, $row, $params);
-    return $affected;
+    return $row;
   }
 
   public function create($row) {

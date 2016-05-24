@@ -9,7 +9,7 @@ $app->get('/colors', function() use($app) {
   $colorsService = new Color($app);
   $colors = $colorsService->index();
 
-  return json_encode($colors);
+  return Api::respond($colors);
 });
 
 $app->get('/colors/{id}', function (Silex\Application $app, $id) {
@@ -19,14 +19,14 @@ $app->get('/colors/{id}', function (Silex\Application $app, $id) {
   if (!$color) {
      $app->abort(404, "id {$id} does not exist.");
   }
-  return json_encode($color);
+  return Api::respond($color);
 });
 
 $app->get('/secrets/user', function (Silex\Application $app) {
   $secretsService = new Secret($app);
   $secrets = $secretsService->indexForUser(UserService::current($app)->id);
 
-  return json_encode($secrets);
+  return Api::respond($secrets);
 });
 
 $app->get('/secrets/user/{id}', function (Silex\Application $app, $id) {
@@ -36,34 +36,46 @@ $app->get('/secrets/user/{id}', function (Silex\Application $app, $id) {
   if (!$secret) {
      $app->abort(404, "id {$id} does not exist.");
   }
-  return json_encode($secret);
+  return Api::respond($secret);
 });
 
 $app->post('/secrets', function (Silex\Application $app) {
-  $secretsService = new Secret($app);
-  $row = $secretsService->getRow($_POST, UserService::current($app));
-  $res = $secretsService->save($row);
+  try {
+    $secretsService = new Secret($app);
+    $row = $secretsService->getRow($_POST, UserService::current($app));
+    $secret = $secretsService->save($row);
 
-  return json_encode($res);
+    return Api::respond($secret);
+  } catch(Exception $ex) {
+    return Api::error($app, $ex);
+  }
 });
 
 $app->post('/secrets/{id}', function (Silex\Application $app, $id) {
-  $secretsService = new Secret($app);
-  $row = $secretsService->getRow($_POST, UserService::current($app), $id);
-  $res = $secretsService->save($row);
+  try {
+    $secretsService = new Secret($app);
+    $row = $secretsService->getRow($_POST, UserService::current($app), $id);
+    $row = $secretsService->save($row);
 
-  return json_encode($res);
+    return Api::respond($row);
+  } catch(Exception $ex) {
+    return Api::error($app, $ex);
+  }
 });
 
 $app->delete('/secrets/{id}', function (Silex\Application $app, $id) {
-  $secretsService = new Secret($app);
-  $res = $secretsService->delete(UserService::current($app), $id);
+  try {
+    $secretsService = new Secret($app);
+    $res = $secretsService->delete(UserService::current($app), $id);
 
-  return json_encode($res);
+    return Api::respond($res);
+  } catch(Exception $ex) {
+    return Api::error($app, $ex);
+  }
 });
 
 $app->get('/user', function() use($app) {
-  return json_encode(UserService::current($app));
+  return Api::respond(UserService::current($app));
 });
 
 $app->get('/user/login', function(Request $request) use ($app) {
@@ -77,7 +89,7 @@ $app->post('/user/register', function() use($app) {
   $username = isset($_GET['username']) ? $_GET['username'] : null;
   $password = isset($_GET['password']) ? $_GET['password'] : null;
   if($username && $password) {
-    return json_encode(UserService::register($app, $username, 'ROLE_USER', $password));
+    return Api::respond(UserService::register($app, $username, 'ROLE_USER', $password));
   }
   $app->abort(403, "no credentials.");
 });
