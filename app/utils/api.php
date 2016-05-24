@@ -1,28 +1,29 @@
 <?php
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 class Api
 {
     public static function respond($data)
     {
         header('Content-Type: application/json');
-        return json_encode($data);
+        return new JsonResponse($data);
     }
 
     public static function error($app, $exception = false)
     {
-        if($exception) {
-            $error = new ApiError($exception->getCode(), $exception->getMessage(), self::statusCode($exception));
-        } else {
-            $error = new ApiError("UNKNOWN_ERROR", "Unexpected error", 500);
-        }
-        return new Response(self::respond($error), $error->statusCode);
+        $error = self::getError($exception);
+        return new JsonResponse($error, $error->statusCode);
     }
 
-    private static function statusCode($exception)
+    private static function getError($exception)
     {
         if($exception) {
-
+            $message = $exception->getMessage();
+            if(strpos($message, 'Duplicate entry')) {
+                return new ApiError('DUPLICATE_ENTRY', 'An item like this already exists', 400);
+            }
         }
-        return 500;
+        return new ApiError('UNKNOWN_ERROR', 'Unexpected error', 500);
     }
 }
 
