@@ -12,7 +12,7 @@
 
       $this->app['db']->insert('users', array(
         'username' => 'admin',
-        'password' => '5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg==',
+        'password' => '5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg==', // chimay or admin?
         'roles' => 'ROLE_ADMIN'
       ));
     }

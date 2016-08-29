@@ -9,6 +9,9 @@ require_once __DIR__.'/utils/api.php';
 require_once __DIR__.'/models/modelbase.php';
 require_once __DIR__.'/models/color.php';
 require_once __DIR__.'/models/secret.php';
+require_once __DIR__.'/controllers/usercontroller.php';
+require_once __DIR__.'/controllers/colorcontroller.php';
+require_once __DIR__.'/controllers/secretcontroller.php';
 
 $app = new Silex\Application();
 
