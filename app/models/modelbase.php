@@ -71,6 +71,28 @@ class ModelBase {
     return isset($post[$param]) ? $post[$param] : null;
   }
 
+  protected function getObj($row)
+  {
+
+    $obj = new stdClass();
+    $obj->id = intval($row['id'], 10);
+    foreach ($this->attrs as $attr) {
+      $obj->{$attr} = $row[$attr];
+    }
+
+    return $obj;
+  }
+
+  public function getRow($post, $user, $id = false)
+  {
+    $row = $this->getRowBase($user, $id);
+    foreach ($this->attrs as $attr) {
+      $this->setRowValueFromPost($post, $attr, $row);
+    }
+
+    return $row;
+  }
+
   protected function getRowBase($user, $id = false) {
     $row = array();
     if($id)
